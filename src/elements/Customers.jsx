@@ -18,7 +18,7 @@ const Customers = () => {
   }, []);
 
   const fetchCustomers = () => {
-    axios.get('http://flip1.engr.oregonstate.edu:4003/api/customers')
+    axios.get('https://movies-rentals-backend-90e51144ad50.herokuapp.com/api/customers')
       .then(response => {
         setCustomers(response.data);
       })
@@ -28,7 +28,7 @@ const Customers = () => {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`http://flip1.engr.oregonstate.edu:4003/api/customers/${id}`)
+    axios.delete(`https://movies-rentals-backend-90e51144ad50.herokuapp.com/api/customers/${id}`)
       .then(() => {
         setCustomers(customers.filter(customer => customer.customer_id !== id));
       })
@@ -45,7 +45,7 @@ const Customers = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (isEditing) {
-      axios.put(`http://flip1.engr.oregonstate.edu:4003/api/customers/${formData.customer_id}`, formData)
+      axios.put(`https://movies-rentals-backend-90e51144ad50.herokuapp.com/api/customers/${formData.customer_id}`, formData)
         .then(() => {
           fetchCustomers(); // Refresh the customers list
           resetForm();
@@ -54,7 +54,7 @@ const Customers = () => {
           console.error("There was an error updating the customer!", error);
         });
     } else {
-      axios.post('http://flip1.engr.oregonstate.edu:4003/api/customers', formData)
+      axios.post('https://movies-rentals-backend-90e51144ad50.herokuapp.com/api/customers', formData)
         .then(() => {
           fetchCustomers(); // Refresh the customers list
           resetForm();
