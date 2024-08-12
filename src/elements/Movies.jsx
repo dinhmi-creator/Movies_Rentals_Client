@@ -84,6 +84,11 @@ const Movies = () => {
     setIsEditing(false);
   };
 
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   return (
     <div className="container">
       {/* Navigation Links */}
@@ -162,7 +167,7 @@ const Movies = () => {
               <td>{movie.movie_id}</td>
               <td>{movie.title}</td>
               <td>{movie.genre}</td>
-              <td>{movie.release_date}</td>
+              <td>{formatDate(movie.release_date)}</td> {/* Formatted Date */}
               <td>{movie.price}</td>
               <td>{movie.amount}</td>
               <td>

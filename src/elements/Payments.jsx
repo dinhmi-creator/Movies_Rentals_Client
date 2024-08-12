@@ -82,6 +82,11 @@ const Payments = () => {
     setIsEditing(false);
   };
 
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   return (
     <div className="container">
       <nav className="nav">
@@ -148,7 +153,7 @@ const Payments = () => {
             <tr key={payment.payment_id}>
               <td>{payment.payment_id}</td>
               <td>{payment.payment_amount}</td>
-              <td>{payment.payment_date}</td>
+              <td>{formatDate(payment.payment_date)}</td> {/* Formatted Date */}
               <td>{payment.payment_method}</td>
               <td>{payment.payment_status}</td>
               <td>
