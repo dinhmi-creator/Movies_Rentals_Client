@@ -44,7 +44,7 @@ const Movies = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSit = (e) => {
     e.preventDefault();
     if (isEditing) {
       axios.put(`http://flip1.engr.oregonstate.edu:30858/api/movies/${formData.movie_id}`, formData)
