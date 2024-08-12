@@ -17,7 +17,7 @@ const Memberships = () => {
   }, []);
 
   const fetchMemberships = () => {
-    axios.get('http://flip1.engr.oregonstate.edu:4003/api/memberships')
+    axios.get('http://flip1.engr.oregonstate.edu:30858/api/memberships')
       .then(response => {
         setMemberships(response.data);
       })
@@ -27,7 +27,7 @@ const Memberships = () => {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`http://flip1.engr.oregonstate.edu:4003/api/memberships/${id}`)
+    axios.delete(`http://flip1.engr.oregonstate.edu:30858/api/memberships/${id}`)
       .then(() => {
         setMemberships(memberships.filter(membership => membership.membership_id !== id));
       })
@@ -44,7 +44,7 @@ const Memberships = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (isEditing) {
-      axios.put(`http://flip1.engr.oregonstate.edu:4003/api/memberships/${formData.membership_id}`, formData)
+      axios.put(`http://flip1.engr.oregonstate.edu:30858/api/memberships/${formData.membership_id}`, formData)
         .then(() => {
           fetchMemberships(); // Refresh the memberships list
           resetForm();
@@ -53,7 +53,7 @@ const Memberships = () => {
           console.error("There was an error updating the membership!", error);
         });
     } else {
-      axios.post('http://flip1.engr.oregonstate.edu:4003/api/memberships', formData)
+      axios.post('http://flip1.engr.oregonstate.edu:30858/api/memberships', formData)
         .then(() => {
           fetchMemberships(); // Refresh the memberships list
           resetForm();

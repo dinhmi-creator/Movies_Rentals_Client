@@ -20,7 +20,7 @@ const Movies = () => {
   }, []);
 
   const fetchMovies = () => {
-    axios.get('http://flip1.engr.oregonstate.edu:4003/api/movies')
+    axios.get('http://flip1.engr.oregonstate.edu:30858/api/movies')
       .then(response => {
         setMovies(response.data);
       })
@@ -30,7 +30,7 @@ const Movies = () => {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`http://flip1.engr.oregonstate.edu:4003/api/movies/${id}`)
+    axios.delete(`http://flip1.engr.oregonstate.edu:30858/api/movies/${id}`)
       .then(() => {
         setMovies(movies.filter(movie => movie.movie_id !== id));
       })
@@ -47,7 +47,7 @@ const Movies = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (isEditing) {
-      axios.put(`http://flip1.engr.oregonstate.edu:4003/api/movies/${formData.movie_id}`, formData)
+      axios.put(`http://flip1.engr.oregonstate.edu:30858/api/movies/${formData.movie_id}`, formData)
         .then(() => {
           fetchMovies(); // Refresh the movies list
           resetForm();
@@ -56,7 +56,7 @@ const Movies = () => {
           console.error("There was an error updating the movie!", error);
         });
     } else {
-      axios.post('http://flip1.engr.oregonstate.edu:4003/api/movies', formData)
+      axios.post('http://flip1.engr.oregonstate.edu:30858/api/movies', formData)
         .then(() => {
           fetchMovies(); // Refresh the movies list
           resetForm();

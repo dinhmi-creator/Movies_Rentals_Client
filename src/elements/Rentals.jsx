@@ -20,7 +20,7 @@ const Rentals = () => {
   }, []);
 
   const fetchRentals = () => {
-    axios.get('http://flip1.engr.oregonstate.edu:4003/api/rentals')
+    axios.get('http://flip1.engr.oregonstate.edu:30858/api/rentals')
       .then(response => {
         setRentals(response.data);
       })
@@ -30,7 +30,7 @@ const Rentals = () => {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`http://flip1.engr.oregonstate.edu:4003/api/rentals/${id}`)
+    axios.delete(`http://flip1.engr.oregonstate.edu:30858/api/rentals/${id}`)
       .then(() => {
         setRentals(rentals.filter(rental => rental.rental_id !== id));
       })
@@ -47,7 +47,7 @@ const Rentals = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (isEditing) {
-      axios.put(`http://flip1.engr.oregonstate.edu:4003/api/rentals/${formData.rental_id}`, formData)
+      axios.put(`http://flip1.engr.oregonstate.edu:30858/api/rentals/${formData.rental_id}`, formData)
         .then(() => {
           fetchRentals(); // Refresh the rentals list
           resetForm();
@@ -56,7 +56,7 @@ const Rentals = () => {
           console.error("There was an error updating the rental!", error);
         });
     } else {
-      axios.post('http://flip1.engr.oregonstate.edu:4003/api/rentals', formData)
+      axios.post('http://flip1.engr.oregonstate.edu:30858/api/rentals', formData)
         .then(() => {
           fetchRentals(); // Refresh the rentals list
           resetForm();

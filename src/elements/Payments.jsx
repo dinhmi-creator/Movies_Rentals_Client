@@ -19,7 +19,7 @@ const Payments = () => {
   }, []);
 
   const fetchPayments = () => {
-    axios.get('http://flip1.engr.oregonstate.edu:4003/api/payments')
+    axios.get('http://flip1.engr.oregonstate.edu:30858/api/payments')
       .then(response => {
         setPayments(response.data);
       })
@@ -29,7 +29,7 @@ const Payments = () => {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`http://flip1.engr.oregonstate.edu:4003/api/payments/${id}`)
+    axios.delete(`http://flip1.engr.oregonstate.edu:30858/api/payments/${id}`)
       .then(() => {
         setPayments(payments.filter(payment => payment.payment_id !== id));
       })
@@ -46,7 +46,7 @@ const Payments = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (isEditing) {
-      axios.put(`http://flip1.engr.oregonstate.edu:4003/api/payments/${formData.payment_id}`, formData)
+      axios.put(`http://flip1.engr.oregonstate.edu:30858/api/payments/${formData.payment_id}`, formData)
         .then(() => {
           fetchPayments(); // Refresh the payments list
           resetForm();
@@ -55,7 +55,7 @@ const Payments = () => {
           console.error("There was an error updating the payment!", error);
         });
     } else {
-      axios.post('http://flip1.engr.oregonstate.edu:4003/api/payments', formData)
+      axios.post('http://flip1.engr.oregonstate.edu:30858/api/payments', formData)
         .then(() => {
           fetchPayments(); // Refresh the payments list
           resetForm();
