@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';  // Import Link for navigation
+import { Link } from 'react-router-dom';
 import axios from 'axios';
-import '../styles/style.css';  // Import the CSS file
+import '../styles/style.css';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');  // State for search term
   const [formData, setFormData] = useState({
     movie_id: '',
     title: '',
@@ -17,10 +18,16 @@ const Movies = () => {
 
   useEffect(() => {
     fetchMovies();
-  }, []);
+  }, [searchTerm]);  // Refetch movies when searchTerm changes
 
   const fetchMovies = () => {
-    axios.get('http://flip1.engr.oregonstate.edu:30858/api/movies')
+    let query = `http://flip1.engr.oregonstate.edu:30858/api/movies`;
+
+    if (searchTerm) {
+      query += `?title=${encodeURIComponent(searchTerm)}`;
+    }
+
+    axios.get(query)
       .then(response => {
         setMovies(response.data);
       })
@@ -89,6 +96,10 @@ const Movies = () => {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   return (
     <div className="container">
       {/* Navigation Links */}
@@ -102,6 +113,16 @@ const Movies = () => {
       </nav>
 
       <h1>Movies List</h1>
+
+      {/* Search Bar */}
+      <input
+        type="text"
+        placeholder="Search by Title"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        className="search-bar"
+      />
+
       <form onSubmit={handleFormSubmit} className="form">
         <input
           type="text"
@@ -149,6 +170,7 @@ const Movies = () => {
         </button>
         {isEditing && <button type="button" onClick={resetForm} className="button resetButton">Cancel</button>}
       </form>
+      
       <table className="table">
         <thead>
           <tr>
@@ -167,7 +189,7 @@ const Movies = () => {
               <td>{movie.movie_id}</td>
               <td>{movie.title}</td>
               <td>{movie.genre}</td>
-              <td>{formatDate(movie.release_date)}</td> {/* Formatted Date */}
+              <td>{formatDate(movie.release_date)}</td>
               <td>{movie.price}</td>
               <td>{movie.amount}</td>
               <td>
@@ -183,3 +205,4 @@ const Movies = () => {
 };
 
 export default Movies;
+

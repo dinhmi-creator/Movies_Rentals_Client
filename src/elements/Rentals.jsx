@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';  // Import Link for navigation
+import { Link } from 'react-router-dom';
 import axios from 'axios';
-import '../styles/style.css';  // Import the CSS file
+import '../styles/style.css';
 
 const Rentals = () => {
   const [rentals, setRentals] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(''); // State for search term
   const [formData, setFormData] = useState({
     rental_id: '',
     movie_id: '',
@@ -17,10 +18,16 @@ const Rentals = () => {
 
   useEffect(() => {
     fetchRentals();
-  }, []);
+  }, [searchTerm]); // Refetch rentals when searchTerm changes
 
   const fetchRentals = () => {
-    axios.get('http://flip1.engr.oregonstate.edu:30858/api/rentals')
+    let query = `http://flip1.engr.oregonstate.edu:30858/api/rentals`;
+
+    if (searchTerm) {
+      query += `?rental_id=${encodeURIComponent(searchTerm)}`;
+    }
+
+    axios.get(query)
       .then(response => {
         setRentals(response.data);
       })
@@ -91,6 +98,10 @@ const Rentals = () => {
     setIsEditing(false);
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   return (
     <div className="container">
       {/* Navigation Links */}
@@ -104,6 +115,16 @@ const Rentals = () => {
       </nav>
 
       <h1>Rentals List</h1>
+
+      {/* Search Bar */}
+      <input
+        type="text"
+        placeholder="Search by Rental ID"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        className="search-bar"
+      />
+
       <form onSubmit={handleFormSubmit} className="form">
         <input
           type="number"
@@ -149,6 +170,7 @@ const Rentals = () => {
         </button>
         {isEditing && <button type="button" onClick={resetForm} className="button resetButton">Cancel</button>}
       </form>
+      
       <table className="table">
         <thead>
           <tr>
@@ -183,4 +205,3 @@ const Rentals = () => {
 };
 
 export default Rentals;
-

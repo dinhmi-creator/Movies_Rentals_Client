@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import '../styles/style.css';  // Import the CSS file
+import '../styles/style.css';
 
 const Payments = () => {
   const [payments, setPayments] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(''); // State for search term
   const [formData, setFormData] = useState({
     payment_id: '',
     payment_amount: '',
@@ -16,10 +17,16 @@ const Payments = () => {
 
   useEffect(() => {
     fetchPayments();
-  }, []);
+  }, [searchTerm]); // Refetch payments when searchTerm changes
 
   const fetchPayments = () => {
-    axios.get('http://flip1.engr.oregonstate.edu:30858/api/payments')
+    let query = `http://flip1.engr.oregonstate.edu:30858/api/payments`;
+
+    if (searchTerm) {
+      query += `?payment_method=${encodeURIComponent(searchTerm)}`;
+    }
+
+    axios.get(query)
       .then(response => {
         setPayments(response.data);
       })
@@ -87,6 +94,10 @@ const Payments = () => {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   return (
     <div className="container">
       <nav className="nav">
@@ -98,6 +109,16 @@ const Payments = () => {
         <Link to="/rentals" className="nav-link">Rentals</Link>
       </nav>
       <h1>Payments List</h1>
+
+      {/* Search Bar */}
+      <input
+        type="text"
+        placeholder="Search by Payment Method"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        className="search-bar"
+      />
+
       <form onSubmit={handleFormSubmit} className="form">
         <input
           type="number"
@@ -169,3 +190,4 @@ const Payments = () => {
 };
 
 export default Payments;
+
