@@ -53,8 +53,14 @@ const Rentals = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    const payload = { ...formData };
+    
+    if (!payload.date_returned) {
+      delete payload.date_returned; // Avoid sending empty date_returned
+    }
+
     if (isEditing) {
-      axios.put(`http://flip1.engr.oregonstate.edu:30858/api/rentals/${formData.rental_id}`, formData)
+      axios.put(`http://flip1.engr.oregonstate.edu:30858/api/rentals/${formData.rental_id}`, payload)
         .then(() => {
           fetchRentals(); // Refresh the rentals list
           resetForm();
@@ -63,7 +69,7 @@ const Rentals = () => {
           console.error("There was an error updating the rental!", error);
         });
     } else {
-      axios.post('http://flip1.engr.oregonstate.edu:30858/api/rentals', formData)
+      axios.post('http://flip1.engr.oregonstate.edu:30858/api/rentals', payload)
         .then(() => {
           fetchRentals(); // Refresh the rentals list
           resetForm();
